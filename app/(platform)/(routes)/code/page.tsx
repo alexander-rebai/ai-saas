@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Code } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
 import * as z from "zod";
@@ -28,6 +28,18 @@ type Message = {
 const CodePage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [copyButtonText, setCopyButtonText] = useState<string>("Copy");
+  const preRef: RefObject<HTMLPreElement> = useRef(null);
+
+  const copyToClipboard = async () => {
+    if (!preRef.current) return;
+
+    await navigator.clipboard.writeText(preRef.current.innerText);
+    setCopyButtonText("Copied!");
+    setTimeout(() => {
+      setCopyButtonText("Copy");
+    }, 1500);
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -135,8 +147,14 @@ const CodePage = () => {
                 <ReactMarkdown
                   components={{
                     pre: ({ node, ...props }) => (
-                      <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
-                        <pre {...props} />
+                      <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg relative">
+                        <pre ref={preRef} {...props} />
+                        <button
+                          onClick={copyToClipboard}
+                          className="absolute top-5 right-5 h-10 w-20 hover:bg-accent hover:text-accent-foreground rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                        >
+                          {copyButtonText}
+                        </button>
                       </div>
                     ),
                     code: ({ node, ...props }) => (
