@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 type Message = {
   role: string;
@@ -27,6 +28,7 @@ type Message = {
 const ConversationPage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]);
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,9 +55,10 @@ const ConversationPage = () => {
       setMessages((prev) => [...prev, userMessage, response.data]);
 
       form.reset();
-    } catch (error) {
-      //TODO: Open Pro Modal
-      console.log(error);
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }

@@ -19,6 +19,7 @@ import { RefObject, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
 import * as z from "zod";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 type Message = {
   role: string;
@@ -30,6 +31,7 @@ const CodePage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [copyButtonText, setCopyButtonText] = useState<string>("Copy");
   const preRef: RefObject<HTMLPreElement> = useRef(null);
+  const proModal = useProModal();
 
   const copyToClipboard = async () => {
     if (!preRef.current) return;
@@ -66,8 +68,10 @@ const CodePage = () => {
       setMessages((prev) => [...prev, userMessage, response.data]);
 
       form.reset();
-    } catch (error) {
-      //TODO: Open Pro Modal
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error);
     } finally {
       router.refresh();
