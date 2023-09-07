@@ -23,9 +23,9 @@ export async function GET() {
     });
 
     // user is already subscribed and want to overview/cancel his subscription
-    if (userSubscription && userSubscription.StripeCustomerId) {
+    if (userSubscription && userSubscription.stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
-        customer: userSubscription.StripeCustomerId,
+        customer: userSubscription.stripeCustomerId,
         return_url: settingsUrl,
       });
 

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import FreeUsageCounter from "@/components/FreeUsageCounter";
+import FreeUsageCounter from "@/components/free-usage-counter";
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 
