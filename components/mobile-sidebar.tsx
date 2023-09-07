@@ -8,7 +8,13 @@ import { Sidebar } from "@/components/sidebar";
 import { useEffect, useState } from "react";
 import { getApiLimitCount } from "@/lib/api-limit";
 
-const MobileSidebar = ({ apiLimitCount }: { apiLimitCount: number }) => {
+const MobileSidebar = ({
+  apiLimitCount,
+  isPro = false,
+}: {
+  apiLimitCount: number;
+  isPro: boolean;
+}) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -27,7 +33,7 @@ const MobileSidebar = ({ apiLimitCount }: { apiLimitCount: number }) => {
         </div>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">
-        <Sidebar apiLimitCount={apiLimitCount} />
+        <Sidebar apiLimitCount={apiLimitCount} isPro={isPro} />
       </SheetContent>
     </Sheet>
   );
