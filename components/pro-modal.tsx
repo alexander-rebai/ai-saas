@@ -67,6 +67,7 @@ const ProModal = () => {
         </DialogHeader>
         <DialogFooter>
           <Button
+            disabled={loading}
             size="lg"
             variant="upgrade"
             className="w-full"
