@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      process.env.STRIPE_WEBHOOK_SECRET!,
     );
   } catch (error: any) {
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
   if (event.type === "checkout.session.completed") {
     const subscription = await stripe.subscriptions.retrieve(
-      session.subscription as string
+      session.subscription as string,
     );
 
     if (!session?.metadata?.userId) {
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         stripeCustomerId: subscription.customer as string,
         stripePriceId: subscription.items.data[0].price.id,
         stripeCurrentPeriodEnd: new Date(
-          subscription.current_period_end * 1000
+          subscription.current_period_end * 1000,
         ),
       },
     });
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 
   if (event.type === "invoice.payment_succeeded") {
     const subscription = await stripe.subscriptions.retrieve(
-      session.subscription as string
+      session.subscription as string,
     );
 
     await prismadb.userSubscription.update({
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
       data: {
         stripePriceId: subscription.items.data[0].price.id,
         stripeCurrentPeriodEnd: new Date(
-          subscription.current_period_end * 1000
+          subscription.current_period_end * 1000,
         ),
       },
     });

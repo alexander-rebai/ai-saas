@@ -39,7 +39,7 @@ export async function POST(req: Request) {
         input: {
           prompt,
         },
-      }
+      },
     );
 
     return NextResponse.json(response);
