@@ -8,8 +8,8 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "space",
-		"indentWidth": 8,
+		"indentStyle": "tab",
+		"indentWidth": 4,
 		"lineWidth": 120,
 		"lineEnding": "lf"
 	}
