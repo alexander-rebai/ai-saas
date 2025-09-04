@@ -28,6 +28,7 @@
                                                 "crisp-sdk-web": "^1.0.21",
                                                 "eslint": "8.46.0",
                                                 "eslint-config-next": "13.4.13",
+                                                "jspdf": "2.5.2",
                                                 "lucide-react": "^0.263.1",
                                                 "next": "13.4.13",
                                                 "openai": "^4.2.0",
