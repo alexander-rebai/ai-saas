@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  path-to-regexp@<=6.3.0: 6.3.0
+
 dependencies:
   '@clerk/nextjs':
     specifier: 4.31.5
